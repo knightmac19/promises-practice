@@ -1,17 +1,63 @@
 export const getFirstResolvedPromise = (promises) => {
   //*  write code to pass test ⬇ ️
+  return new Promise((resolve, reject) => {
+    promises.forEach((promise) => {
+      promise.then(resolve).catch(() => {});
+    });
+  });
 };
 
 export const getFirstPromiseOrFail = (promises) => {
   //*  write code to pass test ⬇ ️
+  return new Promise((resolve, reject) => {
+    let resolvedCount = 0;
+
+    promises.forEach((promise) => {
+      promise
+        .then((result) => {
+          resolvedCount++;
+          if (resolvedCount === 1) {
+            resolve(result);
+          }
+        })
+        .catch((error) => {
+          if (resolvedCount === 0) {
+            reject(error);
+          }
+        });
+    });
+  });
 };
 
-export const getQuantityOfRejectedPromises = (promises) => {
-  //*  write code to pass test ⬇ ️
-};
+export function getQuantityOfRejectedPromises(promises) {
+  return new Promise((resolve) => {
+    let rejectedCount = 0;
+
+    promises.forEach((promise) => {
+      promise.catch(() => {
+        rejectedCount++;
+      });
+    });
+
+    Promise.race(promises.map((p) => p.catch(() => "rejected"))).then(() => {
+      resolve(rejectedCount);
+    });
+  });
+}
 
 export const getQuantityOfFulfilledPromises = (promises) => {
   //*  write code to pass test ⬇ ️
+  let resolvedCount = 0;
+
+  return Promise.all(
+    promises.map((promise) =>
+      promise
+        .then(() => {
+          resolvedCount++;
+        })
+        .catch(() => {})
+    )
+  ).then(() => resolvedCount);
 };
 
 //!  ⬇ ⬇ ⬇ ⬇ Don't Edit This Array ⬇ ⬇ ⬇ ⬇
@@ -45,4 +91,20 @@ export const fetchAllCharactersByIds = async (ids) => {
   // To solve this you must fetch all characters passed in the array at the same time
   // use the `fetchCharacterById` function above to make this work
   //*  write code to pass test ⬇ ️
+  const validIds = ids.filter((id) =>
+    allCharacters.some((character) => character.id === id)
+  );
+
+  if (validIds.length !== ids.length) {
+    return [];
+  }
+
+  try {
+    const characters = await Promise.all(
+      validIds.map((id) => fetchCharacterById(id))
+    );
+    return characters;
+  } catch (error) {
+    return [];
+  }
 };
