@@ -38,7 +38,9 @@ export function alwaysThrows() {
 
 export function onReject(arg) {
   // Your code goes here...
-  typeof arg === "object" ? console.log(arg.message) : console.log(arg);
+  const valueToLog = arg.message || arg;
+
+  console.log(valueToLog);
 }
 
 /**
@@ -63,7 +65,7 @@ export function onReject(arg) {
  */
 
 // Your code goes here...
-export const promise = Promise.resolve(0)
+export const promise = Promise.resolve(1)
   .then((value) => iterate(value))
   .then((value) => iterate(value))
   .then((value) => iterate(value))
@@ -75,7 +77,7 @@ export const promise = Promise.resolve(0)
   .then((value) => iterate(value))
   .then((value) => iterate(value))
   .then((value) => iterate(value))
-  .catch((err) => console.log(err));
+  .catch((err) => onReject(err));
 
 // === TEST YOURSELF ===
 // Once you're finished run the test with "npm run test-9"

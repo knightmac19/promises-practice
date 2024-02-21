@@ -27,11 +27,8 @@ export const logMessageAfterOneSecondAwait = async (message) => {
   // in an async function it automatically returns a promise no matter what you return, so you don't need to
   // worry about what you return
 
-  const resolvedMessage = createOneSecondPromise().then(() => {
-    console.log(message);
-  });
-
-  await resolvedMessage;
+  await createOneSecondPromise();
+  console.log(message);
 };
 
 // === TEST YOURSELF ===

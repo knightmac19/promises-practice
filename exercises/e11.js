@@ -29,23 +29,9 @@ export const usersUrl = "http://localhost:3000/users/";
 
 const getLoginList = (data) => {
   // Your code goes here...
-  // return new Promise((resolve, reject) => {
-  //   try {
-  //     const logins = data.map((user) => {
-  //       return {login: user.login}
-  //     })
-  //     console.log('The PROMISE was RESOLVED')
-  //     resolve(logins)
-  //   } catch (error) {
-  //     return error
-  //   }
-  // })
-
-  const logins = data.map((user) => {
-    return { login: user.login };
+  return data.map((user) => {
+    return user.login;
   });
-  console.log(logins);
-  return logins;
 };
 
 /**
@@ -72,10 +58,12 @@ const getData = fetch(usersUrl);
 // Your code goes here ...
 export const result = getData
   .then((res) => res.json())
-  .then((data) => getLoginList(data));
-// .then(() => "The PROMISE was RESOLVED");
+  .then((data) => {
+    console.log(getLoginList(data));
+    return getLoginList(data);
+  });
 
-// Instructions unclear: I do not understand why this keeps failing the test. I've tried logging the required message both in the getLoginList function and at the end of the fetch request but neither satisfies the tests. This is currently functional but doesn't pass the tests ¯\_(ツ)_/¯
+// MESSAGE:
 
 // === TEST YOURSELF ===
 // Once you're finished run the test with "npm run test-11"

@@ -25,6 +25,7 @@ export const getPromise = () => {
   // Your code goes here...
   return Promise.resolve("MANHATTAN").then((res) => {
     console.log(attachTitle(res));
+    return attachTitle(res);
   });
 };
 

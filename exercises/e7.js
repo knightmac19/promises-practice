@@ -26,8 +26,7 @@
 export function parsePromised(jsonString) {
   return new Promise((resolve, reject) => {
     try {
-      const parsedJson = JSON.parse(jsonString);
-      resolve(parsedJson);
+      resolve(JSON.parse(jsonString));
     } catch (error) {
       reject(error);
     }

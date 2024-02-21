@@ -41,7 +41,7 @@ export const handlePromise = (promise) => {
     return value;
   };
 
-  return promise.then(onFulfilled(), () => "Uh Oh");
+  return promise.then(onFulfilled, () => "Uh Oh");
 };
 
 // === TEST YOURSELF ===
